@@ -1,7 +1,7 @@
-const {requireUncached} = require("../../utils")
 module.exports = {
   name: 'slap',
   displayName: 'slap',
+  aliases: ['s'],
   userPermissions: [],
   botPermissions: [],
   ownerOnly: false,

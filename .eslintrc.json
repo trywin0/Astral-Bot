@@ -11,7 +11,7 @@
         "ecmaVersion": 12
     },
     "rules": {
-        "ignoreStrings": true,
-        "no-unused-vars": "off"
+        "ignoreStrings": true
+     
     }
 }

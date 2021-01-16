@@ -9,6 +9,7 @@ const client = new Client({partials: ['MESSAGE', 'REACTION', 'CHANNEL']});
 
 client.config = config;
 client.commands = new Collection();
+client.snipes = new Collection();
 
 // Read all of the files in the event folder
 const eventFileNames = fs.readdirSync(`${__dirname}/events`);
@@ -30,6 +31,7 @@ const commands = fs.readdirSync(`${__dirname}/commands`).map((category)=>{
 
 // Registering each command in the client.commands collection
 commands.forEach((command)=>client.commands.set(command.name, command));
+
 
 
 // Logging in with the bot
