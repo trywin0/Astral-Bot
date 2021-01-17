@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const {log, commandHandler} = require('../utils');
+const commandHandler = require('../commandHandler');
 
 module.exports = {
   event: 'message',

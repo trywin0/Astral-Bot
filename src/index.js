@@ -2,14 +2,16 @@
 const {Client, Collection} = require('discord.js');
 const {'discord-bot-token': token} = require('../secrets.json');
 const config = require('../config.json');
+const {File} = require('./utils.js')
 const fs = require('fs');
 
 // Discord client initialization and registering events
 const client = new Client({partials: ['MESSAGE', 'REACTION', 'CHANNEL']});
 
 client.config = config;
+client.data = new File(__dirname + '/../data.json')
 client.commands = new Collection();
-client.snipes = new Collection();
+client.snipes = new Collection(); // Be careful with the snipes, Discord may not like it.
 
 // Read all of the files in the event folder
 const eventFileNames = fs.readdirSync(`${__dirname}/events`);

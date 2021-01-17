@@ -13,13 +13,14 @@ module.exports = {
    if(!content) return message.reply("You need to provide message content")
 
    let snipeMessage = {
-     author: user,
+     username: user.username,
+     avatar: user.displayAvatarURL({dynamic: true}),
      content,
-     guild: message.guild
+     guild: message.guild.id, 
+     bot: false,
    }
    
-   client.snipes.set(message.id, snipeMessage)
-   console.log(client.snipes)
+   client.snipes.set(Date.now()+"", snipeMessage)
 
    message.reply("done.")
   },

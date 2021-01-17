@@ -9,6 +9,14 @@ module.exports = {
      * @param {Discord.Message} message
      */
   run: (client, message) => {
-    client.snipes.set(message.id, message)
+    if(message.author.bot) return;
+    // Add the deleted message as a snipe
+    client.snipes.set(message.id, {
+      avatar: message.author.displayAvatarURL({dynamic:true}),
+      content: message.content,
+      username: message.author.username, 
+      guild: message.guild.id, 
+      bot: false,
+    })
   },
 };
