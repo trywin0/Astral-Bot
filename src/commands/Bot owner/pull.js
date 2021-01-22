@@ -1,14 +1,10 @@
-const simpleGit = require('simple-git')
-const git = simpleGit()
+const shell = require('shelljs')
+const path = __dirname + '/../'
 
-(async () => {
-  try {
-    await git.init();
-    await git.addRemote("Astral-Bot", "https://github.com/trywin0/Astral-Bot");
+function pull(){
+  shell.cd(path)
+  shell.exec('git clone https://github.com/trywin0/Astral-Bot')
 }
-catch (e) { /* handle all errors here */ }
-})()
-
 module.exports = {
   name: 'pull',
   displayName: 'pull',
@@ -17,6 +13,7 @@ module.exports = {
   ownerOnly: true,
   dm: true,
   run: (client, message, args)=>{
-    git.pull()
+    pull()
+    message.channel.send("Done?")
   },
 };
