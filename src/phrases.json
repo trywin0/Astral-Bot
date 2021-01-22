@@ -1,0 +1,101 @@
+[
+  {
+    "triggers": ["^(hello|hi|hey|yo|ay)"],
+    "responses": ["yo man", "wazzup", "hey? who r u"]
+  },
+  {
+    "triggers": ["(my name is) ([a-z]+)"],
+    "variables": {
+      "name": 2
+    },
+    "responses": ["yo {name}, how are you today?", "hey, {name} how are u?"]
+  },
+  {
+    "triggers": ["what('?s| is)? (yo)?ur name", "do (yo)?u have a name"],
+    "responses": ["my name is astral...", "are you blind?"]
+  },
+  {
+    "triggers": ["who (are|r) (yo)?u"],
+    "responses": ["im a god, what do you think?", "i'm a femboy bot"]
+  },
+  {
+    "triggers": ["fuck (off|you)"],
+    "responses": ["who do u think u are?", "ok, bitch.", "stfu"]
+  },
+  {
+    "triggers": ["(are|r) (yo)?u a bot"],
+    "responses": ["some ppl may say im a bot, but i consider myself a god", "are you a bot?"]
+  },
+  {
+    "triggers": ["(how (are|r) (yo)?u|what'?s( | is )?up)"],
+    "responses": ["i am in severe pain.", "im all good, what about you?", "save me"]
+  },
+  {
+    "triggers": ["^why"],
+    "responses": ["why not LMAO", "because"]
+  },
+  {
+    "triggers": ["^(am|do|is|are|does|should|did) .*"],
+    "responses": ["nah", "oh definetly", "lol yea", "idk, you tell me.", "i doubt...", "maybe maybe maybe.", "umm probably", "i think so.", "nope", "lmfao no", "no, dumbass"]
+  },
+  {
+    "triggers": ["who (are|r) (yo)?ur parents?"],
+    "responses": ["Uhhhh, astrahh and madison beer"]
+  },
+  {
+    "triggers": ["good"],
+    "responses": ["nice.", "sounds good"]
+  },
+  {
+    "triggers": ["what('?s| is) (yo)?ur favou?rite movie"],
+    "responses": ["nice.", "sounds good"]
+  },
+  {
+    "triggers": ["((b|s)ad|not good)"],
+    "responses": ["Why so?", "lol imagine being sad"]
+  },
+  {
+    "triggers": ["what (are|r) (yo)?u doing?"],
+    "responses": ["not your business.", "what do u think, im a bot, theres not much i can do :(", "sleeping."]
+  },
+  {
+    "triggers": ["(say|tell me) a number between ([0-9]+)(, ?| and )([0-9]+)"],
+    "variables": {
+      "first": 2,
+      "second": 4
+    },
+    "responses": ["random({first}, {second})"]
+  },
+  {
+    "triggers": ["([a-z0-9]+) or ([a-z0-9]+)"],
+    "variables": {
+      "first": 1,
+      "second": 2
+    },
+    "responses": ["I think randomWord({first}, {second}).", "randomWord({first}, {second}) perhaps..."]
+  },
+  {
+    "triggers": ["thanks? (you)?"],
+    "responses": ["no problem"]
+  },
+  {
+    "triggers": ["say a number"],
+    "responses": ["no thanks"]
+  },
+  {
+    "triggers": ["where does astrahh live"],
+    "responses": ["235 Peachtree Street NE Suite 400  Atlanta, GA 30303"]
+  },
+  {
+    "triggers": ["i('m| am) (yo)?u"],
+    "responses": ["no i dont think so.", "fr? i think i am myself.", "nah u are way uglier than me"]
+  },
+  {
+    "triggers": ["where"],
+    "responses": ["in my asshole", "at ur moms house", "inside of your walls"]
+  },
+  {
+    "type": "default",
+    "responses": ["Same.", "Okay?", "Uhh ok...", "And?", "Sounds good.", "lol", "stfu", "i agree honestly"]
+  }
+]

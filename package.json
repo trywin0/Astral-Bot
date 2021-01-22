@@ -24,7 +24,11 @@
     "free-google-image-search": "^1.0.0",
     "g-i-s": "^2.1.6",
     "mongoose": "^5.11.10",
-    "twemoji-parser": "^13.0.0"
+    "simple-git": "^2.31.0",
+    "twemoji-parser": "^13.0.0",
+    "twitch-emoticons": "^2.1.1",
+    "twitch-emoticons-fork": "^2.2.0",
+    "uwuify": "^1.0.1"
   },
   "devDependencies": {
     "eslint": "^7.17.0",

@@ -10,9 +10,9 @@ function searchImage(query){
   })
 }
 module.exports = {
-  name: 'british',
-  displayName: '3Head',
-  aliases: ['3head'],
+  name: 'american',
+  displayName: 'american',
+  aliases: ['kkona'],
   userPermissions: [],
   botPermissions: [],
   ownerOnly: false,
@@ -23,7 +23,7 @@ module.exports = {
      * @param {string[]} args
      */
   run: async (client, message, args)=>{
-    searchImage("british teeth").then(res=>{
+    searchImage("fat american").then(res=>{
       const image = res[Math.floor(Math.random()*res.length)];
       message.channel.send(image.url).catch(e=>null)
     })
