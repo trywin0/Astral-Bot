@@ -1,8 +1,11 @@
+const startTime = Date.now()
+
 // Require modules and files
 const {Client, Collection} = require('discord.js');
+const connectDB = require("./database")
 const {'discord-bot-token': token} = require('../secrets.json');
 const config = require('../config.json');
-const {File} = require('./utils.js')
+const {File, log} = require('./utils.js')
 const fs = require('fs');
 
 // Discord client initialization and registering events
@@ -38,3 +41,10 @@ commands.forEach((command)=>client.commands.set(command.name, command));
 
 // Logging in with the bot
 client.login(token);
+
+
+
+// Connecting to the database
+connectDB().then(()=>{
+  log(`Connected to the database. Took ${Date.now()-startTime} ms`, "green")
+})

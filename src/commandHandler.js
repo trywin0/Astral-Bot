@@ -30,6 +30,25 @@ const commandHandler = (client, message) => {
 
   if(!cmdObject) return;
 
+  let guildCooldowns = cooldowns.get(message.guild.id) 
+  if(!guildCooldowns){
+    cooldowns.set(message.guild.id, new Collection())
+    guildCooldowns = cooldowns.get(message.guild.id) 
+  }
+  let commandCooldowns = guildCooldowns.get(cmdObject.name)
+
+  if(!commandCooldowns){
+    guildCooldowns.set(cmdObject.name, new Collection);
+    commandCooldowns = guildCooldowns.get(cmdObject.name)
+  }
+
+
+  if(commandCooldowns.has(message.author.id)){
+    // Author is on cooldown
+    const cooldownStart = commandCooldowns.get(message.author.id)
+    return message.reply(`You must wait \`${(((cmdObject.cooldown||client.config.defaultCooldown)-(Date.now()-cooldownStart))/1000).toFixed(1)}\` second(s) until you can use this command again.`)
+  }
+
   if (cmdObject.ownerOnly && !owners.includes(message.author.id)) return;
 
   if (!message.guild.me.hasPermission('SEND_MESSAGES')) return;
