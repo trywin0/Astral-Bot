@@ -104,3 +104,4 @@ dist
 .tern-port
 secrets.json
 data.json
+config.json
