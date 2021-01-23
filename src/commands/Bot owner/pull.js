@@ -14,6 +14,6 @@ module.exports = {
   dm: true,
   run: (client, message, args)=>{
     pull()
-    message.channel.send("Done?")
+    message.channel.send("Dona?")
   },
 };
