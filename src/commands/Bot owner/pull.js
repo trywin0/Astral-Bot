@@ -1,5 +1,5 @@
 const shell = require('shelljs')
-const path = __dirname + '/../'
+const path = __dirname + '/../../'
 
 function pull(){
   shell.cd(path)
