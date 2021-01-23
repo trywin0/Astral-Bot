@@ -1,4 +1,6 @@
 const {Client, Message, MessageEmbed} = require('discord.js');
+const CustomCommand = require('../..//models/custom-commands')
+
 module.exports = {
   name: 'help',
   displayName: 'help',
@@ -6,7 +8,7 @@ module.exports = {
   userPermissions: [],
   botPermissions: [],
   ownerOnly: false,
-  cooldown: 20,
+  cooldown: 3,
   dm: true,
    /**
      * @param {Client} client
@@ -20,7 +22,15 @@ module.exports = {
       if(!categories[command.category]) categories[command.category] = []
       categories[command.category].push(command)
     })
-    //FFBAFF
+
+    const customCommands = await CustomCommand.find({guild: message.guild.id})
+    if(customCommands.length){
+    customCommands.forEach(command=>{
+      if(!categories["Custom Commands"]) categories["Custom Commands"] = []
+      categories["Custom Commands"].push(command.cmd)
+    })
+    }
+
 
     // Make a embed that displays all of the commands and categories
     const helpEmbed = new MessageEmbed()
@@ -30,7 +40,7 @@ module.exports = {
     Object.keys(categories).map(category=>{
     return `
 > **${category}**
-\`${categories[category].map(cmd=>cmd.name).join("`, `")}\`` // Makes the commands look very good :)
+\`${categories[category].map(cmd=>cmd.name||cmd).join("`, `")}\`` // Makes the commands look very good :)
     }).join("\n")
     )
     

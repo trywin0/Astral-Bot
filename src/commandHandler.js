@@ -1,4 +1,5 @@
 const { Collection } = require("discord.js");
+const CustomCommand = require('./models/custom-commands')
 
 const cooldowns = new Collection()
 // Command handler
@@ -8,7 +9,7 @@ const cooldowns = new Collection()
    * @param {Message} message
    * @return {void}
    */
-const commandHandler = (client, message) => {
+const commandHandler = async (client, message) => {
   const {owners, prefix} = client.config;
 
   if (!message.content.startsWith(prefix)) return;
@@ -28,6 +29,12 @@ const commandHandler = (client, message) => {
      cmd.trigger && cmd.trigger.test(command);
   });
 
+
+  const customCommand = await CustomCommand.findOne({guild:message.guild.id, cmd: command});
+
+  if(customCommand){
+    return message.channel.send(customCommand.rsp)
+  }
   if(!cmdObject) return;
 
   let guildCooldowns = cooldowns.get(message.guild.id) 
@@ -42,13 +49,7 @@ const commandHandler = (client, message) => {
     commandCooldowns = guildCooldowns.get(cmdObject.name)
   }
 
-
-  if(commandCooldowns.has(message.author.id)){
-    // Author is on cooldown
-    const cooldownStart = commandCooldowns.get(message.author.id)
-    return message.reply(`You must wait \`${(((cmdObject.cooldown||client.config.defaultCooldown)-(Date.now()-cooldownStart))/1000).toFixed(1)}\` second(s) until you can use this command again.`)
-  }
-
+  
   if (cmdObject.ownerOnly && !owners.includes(message.author.id)) return;
 
   if (!message.guild.me.hasPermission('SEND_MESSAGES')) return;
@@ -73,8 +74,22 @@ const commandHandler = (client, message) => {
   if (!cmdObject.dm && message.channel.type === 'dm') {
     return message.reply('This command cannot be used inside DMs');
   }
+  
+  if(commandCooldowns.has(message.author.id)){
+    // Author is on cooldown
+    const cooldownStart = commandCooldowns.get(message.author.id)
+    return message.reply(`You must wait \`${
+      (((cmdObject.cooldown||client.config["default-cooldown"])*1000-(Date.now()-cooldownStart))/1000).toFixed(1)
+    }\` second(s) until you can use this command again.`).then(msg=>setTimeout(()=>msg.delete(), 5000))
+  }
+
+  commandCooldowns.set(message.author.id, Date.now())
 
   cmdObject.run(client, message, args)
+
+  setTimeout(() => {
+    commandCooldowns.delete(message.author.id)
+  }, (cmdObject.cooldown||client.config["default-cooldown"])*1000);
 };
 
 module.exports = commandHandler;
