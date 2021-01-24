@@ -1,4 +1,5 @@
-const {Client, Message} = require('discord.js');
+const Discord = require('discord.js');
+const pet = require("pet-pet-gif")
 const {twEmojiRegex} = require("../../utils")
 function hexEncode(text){
   const hex = text.codePointAt(0).toString(16);
@@ -35,11 +36,11 @@ async function parseEmote(url){
  
 }
 module.exports = {
-  name: 'emoji',
-  displayName: 'emoji',
-  aliases: ['emote'],
-  userPermissions: ["MANAGE_EMOJIS"],
-  botPermissions: ["MANAGE_EMOJIS"],
+  name: 'pet',
+  displayName: 'pet',
+  aliases: ['pat'],
+  userPermissions: [],
+  botPermissions: [],
   ownerOnly: false,
   dm: false,
    /**
@@ -48,41 +49,27 @@ module.exports = {
      * @param {string[]} args
      */
   run: async (client, message, args)=>{
-    if(!args[0]) return message.reply("Missing arguments: `emoji|img_url, ?name`")
+    if(!args[0]) return message.reply("Missing arguments: `emoji|img_url`")
     const emojiRegex = /<?(a)?:?(\w{2,32}):(\d{17,19})>?/; // Regex to parse custom discord emojis   <(a for animated):(emoji name):( emoji ID)>
     const twEmoji = hexEncode(args[0]) // get the hex of the emoji provided, incase its a unicode twitter emoji
-    let name, url, deleted = false
+    let url;
     const emojiExec = emojiRegex.exec(args[0]) // Exec the first argument to see if it's a custom discord emoji
     const parsedEmote = await parseEmote(args[0])
-    if(emojiRegex.test(args[0]) && message.guild.emojis.cache.has(emojiExec[3])){
-      const emoji = message.guild.emojis.cache.get(emojiExec[3])
-      deleted = true
-      emoji.delete().then(()=>{
-        message.reply(`Deleted emoji: \`${emojiExec[2]}\``)
-      }).catch(e=>{
-        message.reply(`Something went wrong: \n${e}`)
-      })
-    }else if(emojiRegex.test(args[0])){
-      const isAnimated = !!emojiExec[1]
-      name = args[1]||emojiExec[2]
+    if(emojiRegex.test(args[0])){
       const ID = emojiExec[3]
-      url = `https://cdn.discordapp.com/emojis/${ID}.${isAnimated?"gif":"png"}`
-    }else if(twEmoji && !parsedEmote){
+      url = `https://cdn.discordapp.com/emojis/${ID}.png`
+    } else if(message.mentions.members.first()){ 
+      url = message.mentions.members.first().user.displayAvatarURL({format: "png"})
+    } else if(twEmoji && !parsedEmote){
       url = `https://twemoji.maxcdn.com/36x36/${twEmoji}.png`;
-      name = args[1]
-      if(!name) return message.reply("Missing arguments: `name`")
     }else if(parsedEmote){
       url = parsedEmote.imageURL
-      name = parsedEmote.name
     } else {
-      message.reply("Invalid emoji")
+      url = args[0]
     }
-    if(!deleted){
-      message.guild.emojis.create(url, name).then(emoji=>{
-      message.reply(`Added emoji: ${emoji}`)
-    }).catch(e=>{
-      message.reply(`Something went wrong: \n${e}`)
-    })
-  }
+    if(!url) return message.reply("Invalid image url or emoji")
+    const patGif = await pet(url).catch(e=>e)
+    const attachment = new Discord.MessageAttachment(patGif, "pat.gif")
+    message.channel.send(attachment).catch(e=>null)
   },
 };

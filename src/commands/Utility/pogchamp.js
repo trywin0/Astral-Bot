@@ -18,12 +18,12 @@ module.exports = {
   run: async (client, message, args)=>{
     const currentHours = new Date().getHours();
     let resetTime = 'PogChamp updates in '
-    if (currentHours >= 17) {
-      resetTime += `${(24 - currentHours) + 17} hours!`;
-    } else if (currentHours == 16) {
+    if (currentHours >= 18) {
+      resetTime += `${(24 - currentHours) + 18} hours!`;
+    } else if (currentHours == 17) {
       resetTime += `${60 - new Date().getMinutes()} minutes!`;
     } else {
-      resetTime += `${17 - currentHours} hours!`
+      resetTime += `${18 - currentHours} hours!`
     }
 
   await fetcher.fetchTwitchEmotes()
