@@ -1,11 +1,6 @@
 const Discord = require('discord.js');
-const pet = require("pet-pet-gif")
+const { createCanvas, loadImage } = require('canvas')
 const { parse } = require("twemoji-parser")
-function hexEncode(text) {
-  const hex = text.codePointAt(0).toString(16);
-  const result = "0000".substring(0, 4 - hex.length) + hex;
-  return result
-}
 
 const fetch = require("node-fetch");
 function quickFetch(url) {
@@ -36,12 +31,12 @@ async function parseEmote(url) {
 
 }
 module.exports = {
-  name: 'pet',
-  displayName: 'pet',
-  aliases: ['pat'],
+  name: 'mask',
+  displayName: 'mask',
+  aliases: ['iguess'],
   userPermissions: [],
   botPermissions: [],
-  ownerOnly: true, // "disabled" for now.
+  ownerOnly: false,
   dm: false,
   /**
     * @param {Client} client
@@ -69,8 +64,41 @@ module.exports = {
       url = args[0]
     }
     if (!url) return message.reply("Invalid image url or emoji")
-    const patGif = await pet(url).catch(e => e)
-    const attachment = new Discord.MessageAttachment(patGif, "pat.gif")
-    message.channel.send(attachment).catch(e => e)
+    const canvas = createCanvas(400, 400)
+    const ctx = canvas.getContext("2d");
+
+    const sadgeImage = await loadImage("https://cdn.discordapp.com/emojis/753233159692484761.png")
+
+    ctx.drawImage(sadgeImage, 0, 200, 280, 200)
+
+
+    ctx.fillRect(5, 300, 200, 5)
+    const maskImage = await loadImage(url)
+
+    ctx.save()
+    roundedImage(130, 190, 200, 200, 30)
+    ctx.clip()
+    ctx.drawImage(maskImage, 130, 190, 200, 200)
+    ctx.restore()
+
+
+
+    function roundedImage(x, y, width, height, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+    }
+
+    const attachment = new Discord.MessageAttachment(canvas.toBuffer(), "mask.png")
+
+    message.channel.send(attachment)
   },
 };

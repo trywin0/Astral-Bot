@@ -21,6 +21,7 @@
   "dependencies": {
     "canvas": "^2.6.1",
     "chalk": "^4.1.0",
+    "discord-image-generation": "^1.4.7",
     "discord.js": "github:discordjs/discord.js",
     "free-google-image-search": "^1.0.0",
     "g-i-s": "^2.1.6",
